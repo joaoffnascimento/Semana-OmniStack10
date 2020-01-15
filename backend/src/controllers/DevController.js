@@ -3,7 +3,7 @@
 */
 const axios = require('axios');
 const Dev = require('../models/Dev');
-
+const parseStringAsArray = require('../utils/parseStringAsArray');
 module.exports = {
     async index(request, response){
         const devs = await Dev.find();
@@ -25,8 +25,8 @@ module.exports = {
 
             //Cria 3 variáveis, e as preenche de acordo com a resposta do github.
             const { name = login, avatar_url, bio } = apiResponse.data;
-
-            const techsArray = techs.split(',').map(tech => tech.trim());
+            //Converter as techs separadas por virgula em um array.
+            const techsArray = parseStringAsArray(techs);
 
             const location = {
                 type: 'Point',
