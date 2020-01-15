@@ -1,7 +1,16 @@
+/* O Controller tem 5 funções:
+	Index, Show, Store, Update, Destroy -> Programador implementa !
+*/
 const axios = require('axios');
 const Dev = require('../models/Dev');
 
 module.exports = {
+    async index(request, response){
+        const devs = await Dev.find();
+
+        return response.json(devs);
+    },
+
     async store(request, response) {
         //Buscar no github, consumindo a api dele
         //Corpo da requisição
@@ -24,6 +33,9 @@ module.exports = {
                 coordinates: [longitude, latitude],
             };
 
+            /*Persistir as informações em um banco de dados -> MongoDB (Não Relacional)
+	          Muito performático, banco hospedado na nuvem (MongoDB Atlas)
+            */
             dev = await Dev.create({
                 github_username,
                 name,

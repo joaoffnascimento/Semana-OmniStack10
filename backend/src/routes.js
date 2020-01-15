@@ -2,6 +2,7 @@
 const { Router } = require('express');
 const routes = Router();
 const DevController = require('./controllers/DevController');
+const SearchController = require('./controllers/SearchController');
 
 //Verbos utilizados (Métodos HTTP) -> Get, Post, Put e Delete
 
@@ -15,8 +16,10 @@ const DevController = require('./controllers/DevController');
 	Body Params: (request.body) Escrever com a estrutura, JSON, (Dados para criação ou alteração de um registro)	
 	Falar para o express que estamos trabalhando com JSON -> app.use(express.json());
 */
-
+routes.get('/devs', DevController.index);
 routes.post('/devs', DevController.store);
+
+routes.get('/search', SearchController.index);
 
 //Exportar as rotas para que fiquem visiveis ao arquivo principal da aplicação
 module.exports = routes;
