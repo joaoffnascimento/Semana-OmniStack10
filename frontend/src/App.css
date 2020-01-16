@@ -9,3 +9,7 @@
     /* aside e main sempre alinhados ao topo */
     align-items: flex-start;
 }
+
+#app main {
+    margin-left: 30px;
+}

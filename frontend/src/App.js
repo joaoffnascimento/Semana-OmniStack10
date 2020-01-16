@@ -22,6 +22,7 @@ import React, { useState } from 'react';
 import './global.css';
 import './App.css';
 import './Sidebar.css';
+import './Main.css';
 
 function App() {
   const [counter, setCounter] = useState(0);
@@ -56,12 +57,61 @@ function App() {
               <input name="longitude" id="longitude" required />
             </div>
           </div>
-
-          <button type="submit">Savar</button>
+          
+          <button type="submit">Salvar</button>
         </form>
       </aside>
       <main>
+        <ul>
+          <li className="dev-item">
+            <header>
+              <img src="https://avatars1.githubusercontent.com/u/20630700?s=460&v=4" alt="João Nascimento" />
+              <div className="user-info">
+                <strong>João Felipe</strong>
+                <span>Spring Framework, HTML, CSS e JS</span>
+              </div>
+            </header>
+            <p>Analista de Suporte, apaixonado por infraestrutura</p>
+            <a href="https://github.com/thecurrentuser">Acessar perfil no Github</a>
+          </li>
 
+          <li className="dev-item">
+            <header>
+              <img src="https://avatars1.githubusercontent.com/u/20630700?s=460&v=4" alt="João Nascimento" />
+              <div className="user-info">
+                <strong>João Felipe</strong>
+                <span>Spring Framework, HTML, CSS e JS</span>
+              </div>
+            </header>
+            <p>Analista de Suporte, apaixonado por infraestrutura</p>
+            <a href="https://github.com/thecurrentuser">Acessar perfil no Github</a>
+          </li>
+
+          <li className="dev-item">
+            <header>
+              <img src="https://avatars1.githubusercontent.com/u/20630700?s=460&v=4" alt="João Nascimento" />
+              <div className="user-info">
+                <strong>João Felipe</strong>
+                <span>Spring Framework, HTML, CSS e JS</span>
+              </div>
+            </header>
+            <p>Analista de Suporte, apaixonado por infraestrutura</p>
+            <a href="https://github.com/thecurrentuser">Acessar perfil no Github</a>
+          </li>
+
+          <li className="dev-item">
+            <header>
+              <img src="https://avatars1.githubusercontent.com/u/20630700?s=460&v=4" alt="João Nascimento" />
+              <div className="user-info">
+                <strong>João Felipe</strong>
+                <span>Spring Framework, HTML, CSS e JS</span>
+              </div>
+            </header>
+            <p>Analista de Suporte, apaixonado por infraestrutura</p>
+            <a href="https://github.com/thecurrentuser">Acessar perfil no Github</a>
+          </li>
+
+        </ul>
       </main>
     </div>
   );
