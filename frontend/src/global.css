@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap');
+
+/* Definição de estilos globais para o App */
+* {
+    /* resetando comportamentos padrão */
+    margin: 0;
+    padding: 0;
+    outline: 0;
+    box-sizing: border-box;
+}
+
+html, body, #root {
+    height: 100%;
+
+}
+
+/* Definição da cor do backgroud da aplicação*/
+body {
+    background: #E5E6F0;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Fonte Roboto, Gratuita disponibilizada pelo Google */
+
+body, input, button {
+    font-family: Roboto, sans-serif;
+}
+
