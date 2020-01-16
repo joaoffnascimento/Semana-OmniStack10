@@ -10,6 +10,15 @@ main ul {
     list-style: none;
 }
 
+/* Responsividade */
+/* Ao Reduzir a página horizontalmente */
+
+@media (max-width: 650px) {
+    main ul {
+        grid-template-columns: 1fr;
+    }
+}
+
 li.dev-item {
     background: #FFF;
     background: #FFF;
