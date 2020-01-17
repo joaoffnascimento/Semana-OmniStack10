@@ -16,11 +16,11 @@ mongoose.connect('mongodb+srv://thecurrentuser:Mrkiller\"123@cluster0-0wzlk.mong
 
 //Informar a aplicação que a comunicação por padrão será feita utilizando a estrutura de dados JSON
 //Tem que vir antes, senão o body de requisição não vai funcionar para as rotas
+// Liberar o acesso externo.
+app.use(cors());
 app.use(express.json());
 app.use(routes);
 app.listen(3333);
-// Liberar o acesso externo.
-app.use(cors());
 // Fazer com que o backend seja acessível ao front.
 // yarn add cors
 
