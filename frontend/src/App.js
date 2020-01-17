@@ -18,11 +18,13 @@
 		-> Container, no lugar de DIV, para não quebrar o estilo, utilizar <> </> "Fragment".
 */
 import React, { useState, useEffect } from 'react';
+import api from './services/api';
 
 import './global.css';
 import './App.css';
 import './Sidebar.css';
 import './Main.css';
+
 
 function App() {
   //Manter acesso real ao que o usuário digitou no input
@@ -32,6 +34,7 @@ function App() {
   const [longitude, setLongitude] = useState('');
   const [github_username, setGitHubUsername] = useState('');
   const [techs, setTechs] = useState('');
+  const [devs, setDevs] = useState([]);
 
 
   function increment() {
@@ -69,14 +72,37 @@ function App() {
     )
   }, []);
 
+  // Busca dos Devs deve acontecer apenas uma vez no ciclo de renderização da página
+
+  useEffect(() => {
+    async function loadDevs() {
+      const response = await api.get('/devs');
+
+      setDevs(response.data);
+    }
+
+    loadDevs();
+  }, []);
+
   // Função que será disparada quando o usuário clicar no submit do formulário.
   // EVENTO ---> e
   // submit do formulário tem o comportamento padrão de enviar o usuário para outra tela.
   // Evitar isso na função que "salva" o formulário
-  async function handleAddDev(e){
+  async function handleAddDev(e) {
     e.preventDefault();
     // Fazer a primeira chamada a API para adicionar o DEV a listagem.
-    
+    const response = await api.post('/devs', {
+      github_username,
+      techs,
+      latitude,
+      longitude,
+    })
+    //Limpar os campos do formulário após o cadastro.
+    setGitHubUsername('');
+    setTechs('');
+    //setLatitude('');
+    //setLongitude('');
+
   }
 
   return (
@@ -137,54 +163,19 @@ function App() {
       </aside>
       <main>
         <ul>
-          <li className="dev-item">
-            <header>
-              <img src="https://avatars1.githubusercontent.com/u/20630700?s=460&v=4" alt="João Nascimento" />
-              <div className="user-info">
-                <strong>João Felipe</strong>
-                <span>Spring Framework, HTML, CSS e JS</span>
-              </div>
-            </header>
-            <p>Analista de Suporte, apaixonado por infraestrutura</p>
-            <a href="https://github.com/thecurrentuser">Acessar perfil no Github</a>
-          </li>
-
-          <li className="dev-item">
-            <header>
-              <img src="https://avatars1.githubusercontent.com/u/20630700?s=460&v=4" alt="João Nascimento" />
-              <div className="user-info">
-                <strong>João Felipe</strong>
-                <span>Spring Framework, HTML, CSS e JS</span>
-              </div>
-            </header>
-            <p>Analista de Suporte, apaixonado por infraestrutura</p>
-            <a href="https://github.com/thecurrentuser">Acessar perfil no Github</a>
-          </li>
-
-          <li className="dev-item">
-            <header>
-              <img src="https://avatars1.githubusercontent.com/u/20630700?s=460&v=4" alt="João Nascimento" />
-              <div className="user-info">
-                <strong>João Felipe</strong>
-                <span>Spring Framework, HTML, CSS e JS</span>
-              </div>
-            </header>
-            <p>Analista de Suporte, apaixonado por infraestrutura</p>
-            <a href="https://github.com/thecurrentuser">Acessar perfil no Github</a>
-          </li>
-
-          <li className="dev-item">
-            <header>
-              <img src="https://avatars1.githubusercontent.com/u/20630700?s=460&v=4" alt="João Nascimento" />
-              <div className="user-info">
-                <strong>João Felipe</strong>
-                <span>Spring Framework, HTML, CSS e JS</span>
-              </div>
-            </header>
-            <p>Analista de Suporte, apaixonado por infraestrutura</p>
-            <a href="https://github.com/thecurrentuser">Acessar perfil no Github</a>
-          </li>
-
+          {devs.map (dev => (
+            <li key={dev._id} className="dev-item">
+              <header>
+                <img src={dev.avatar_url} alt={dev.name} />
+                <div className="user-info">
+                  <strong>{dev.name}</strong>
+                  <span>{dev.techs.join(', ')}</span>
+                </div>
+              </header>
+              <p>{dev.bio}</p>
+              <a href={`https://github.com/${dev.github_username}`}>Acessar perfil no Github</a>
+            </li>
+          ))}
         </ul>
       </main>
     </div>
