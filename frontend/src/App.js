@@ -25,53 +25,13 @@ import './App.css';
 import './Sidebar.css';
 import './Main.css';
 
+import DevItem from './components/DevItem';
+import DevForm from './components/DevForm';
 
 function App() {
-  //Manter acesso real ao que o usuário digitou no input
-
-  const [counter, setCounter] = useState(0);
-  const [latitude, setLatitude] = useState('');
-  const [longitude, setLongitude] = useState('');
-  const [github_username, setGitHubUsername] = useState('');
-  const [techs, setTechs] = useState('');
   const [devs, setDevs] = useState([]);
 
-
-  function increment() {
-    setCounter(counter + 1);
-  }
-
-  /* 
-  O que eu vou fazer para controlar quando a função irá executar?
-
-	React oferece uma função chamada useEffect, ele serve para dispararmos uma função toda vez que uma informação alterar, ou uma única vez durante a renderizaçao do componente.
-	Ele recebe dois parâmetros; Qual função e quando.
-	useEffect(() => {} ,[]);
-  Se o vetor estiver vazio vai executar apenas uma vez.
-  --> Dependências do useEffect.
-	navigator.geolocation.getCurrentPosition();
-  */
-
-  useEffect(() => {
-    navigator.geolocation.getCurrentPosition(
-      //Retorna a posição do usuário, se deu tudo certo.
-      (position) => {
-        const { latitude, longitude } = position.coords;
-        // React segue um padrão de programação imperativa.
-        // Criar um estado e o componente precisa saber se comportar com base nesse estado.
-        setLatitude(latitude);
-        setLongitude(longitude);
-      },
-      //Caso aconteça algum erro, chamar essa função.
-      (err) => {
-        console.log(err);
-      },
-      {
-        timeout: 30000,
-      }
-    )
-  }, []);
-
+ 
   // Busca dos Devs deve acontecer apenas uma vez no ciclo de renderização da página
 
   useEffect(() => {
@@ -88,93 +48,27 @@ function App() {
   // EVENTO ---> e
   // submit do formulário tem o comportamento padrão de enviar o usuário para outra tela.
   // Evitar isso na função que "salva" o formulário
-  async function handleAddDev(e) {
-    e.preventDefault();
+  async function handleAddDev(data) {
+    //e.preventDefault();
     // Fazer a primeira chamada a API para adicionar o DEV a listagem.
-    const response = await api.post('/devs', {
-      github_username,
-      techs,
-      latitude,
-      longitude,
-    })
-    //Limpar os campos do formulário após o cadastro.
-    setGitHubUsername('');
-    setTechs('');
+    const response = await api.post('/devs', data)
+
     //setLatitude('');
     //setLongitude('');
-
+    // É assim que se adiciona um novo usuário ao array com react, imutabilidade.
+    setDevs([...devs, response.data]);
   }
 
   return (
     <div id="app">
       <aside>
         <strong>Cadastrar</strong>
-        <form onSubmit={handleAddDev}>
-          <div className="input-block">
-            <label htmlFor="github_username">Usuário do Github</label>
-            <input
-              name="github_username"
-              id="github_username"
-              value={github_username}
-              required
-              onChange={e => setGitHubUsername(e.target.value)}
-            />
-          </div>
-
-          <div className="input-block">
-            <label htmlFor="techs">Tecnologias</label>
-            <input
-              name="techs"
-              id="techs"
-              value={techs}
-              required
-              onChange={e => setTechs(e.target.value)}
-            />
-          </div>
-
-          <div className="input-group">
-            <div className="input-block">
-              <label htmlFor="latitude">Latitude</label>
-              <input
-                type="number"
-                name="latitude"
-                id="latitude"
-                required
-                value={latitude}
-                /*Armazernar o valor de um input dentro de um valor estado*/
-                onChange={e => setLatitude(e.target.value)}
-              />
-            </div>
-
-            <div className="input-block">
-              <label htmlFor="longitude">Longitude</label>
-              <input
-                type="number"
-                name="longitude"
-                id="longitude"
-                required value={longitude}
-                onChange={e => setLongitude(e.target.value)}
-              />
-            </div>
-          </div>
-
-          <button type="submit">Salvar</button>
-        </form>
+        <DevForm onSubmit={handleAddDev} />
       </aside>
       <main>
         <ul>
-          {devs.map (dev => (
-            <li key={dev._id} className="dev-item">
-              <header>
-                <img src={dev.avatar_url} alt={dev.name} />
-                <div className="user-info">
-                  <strong>{dev.name}</strong>
-                  <span>{dev.techs.join(', ')}</span>
-                </div>
-              </header>
-              <p>{dev.bio}</p>
-              <a href={`https://github.com/${dev.github_username}`}>Acessar perfil no Github</a>
-            </li>
+          {devs.map(dev => (
+            <DevItem key={dev._id} dev={dev} />
           ))}
         </ul>
       </main>
