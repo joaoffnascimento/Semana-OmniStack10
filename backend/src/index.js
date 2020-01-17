@@ -4,6 +4,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const routes = require('./routes');
+const cors = require('cors');
 
 const app = express();
 //Conexão com o banco de dados -> yarn add mongoose
@@ -18,3 +19,8 @@ mongoose.connect('mongodb+srv://thecurrentuser:Mrkiller\"123@cluster0-0wzlk.mong
 app.use(express.json());
 app.use(routes);
 app.listen(3333);
+// Liberar o acesso externo.
+app.use(cors());
+// Fazer com que o backend seja acessível ao front.
+// yarn add cors
+
